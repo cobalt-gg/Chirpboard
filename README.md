@@ -13,9 +13,18 @@ A lightweight Electron soundboard with virtual mic routing. Play sounds into Dis
 
 ## Setup
 
-1. Install [VB-Audio Virtual Cable](https://vb-audio.com/Cable/index.htm) (or equivalent)
-2. In ChirpBoard Settings, set **Virtual Mic** to your virtual cable output
-3. In Discord/OBS, set the input device to that same virtual cable
+**Windows:** Install [VB-Audio Virtual Cable](https://vb-audio.com/Cable/index.htm)
+
+**macOS:** Install [BlackHole](https://github.com/ExistentialAudio/BlackHole)
+
+**Linux (PulseAudio):**
+```bash
+pactl load-module module-null-sink sink_name=chirpboard sink_properties=device.description=ChirpBoard
+```
+
+**Linux (PipeWire):** Use `pw-loopback` or [qpwgraph](https://github.com/rncbc/qpwgraph) to create a virtual sink.
+
+Then in ChirpBoard Settings, set **Virtual Mic** to that virtual device. In Discord/OBS, set input to the same device.
 
 ## Development
 
@@ -24,13 +33,19 @@ npm install
 npm start
 ```
 
+> **Note for Linux:** The app requires `icon.png` (not `.ico`) for the window and tray icon. Make sure one exists in the project root.
+
 ## Build
 
 ```bash
-npm run dist
+# Windows installer
+npm run dist -- --win
+
+# Linux (AppImage + deb)
+npm run dist -- --linux
 ```
 
-Outputs a Windows installer to `dist/`.
+Outputs to `dist/`.
 
 ## HTTP API
 

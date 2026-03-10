@@ -48,12 +48,19 @@
 			"target": [
 				{
 					"target": "nsis",
-					"arch": [
-						"x64"
-					]
+					"arch": ["x64"]
 				}
 			],
 			"icon": "icon.ico"
+		},
+		"linux": {
+			"target": [
+				{ "target": "AppImage", "arch": ["x64"] },
+				{ "target": "deb", "arch": ["x64"] }
+			],
+			"icon": "icon.png",
+			"category": "AudioVideo",
+			"maintainer": "cobalt"
 		},
 		"nsis": {
 			"oneClick": false,

@@ -193,13 +193,14 @@
 			</div>
 
 			<div class="settings-info">
-				<p><strong>Setup Instructions:</strong></p>
-				<p>Install a virtual audio cable to route audio:</p>
-				<p>• Windows: VB-Audio Cable or VoiceMeeter</p>
-				<p>• Mac: BlackHole</p>
-				<p>• Linux: PulseAudio loopback</p>
-				<p><br>Then select it as the "Virtual Mic" above.</p>
-				<p>Other apps (Discord, OBS) can use that virtual cable as input.</p>
+			 <p><strong>Setup Instructions:</strong></p>
+			 <p>Install a virtual audio cable to route audio:</p>
+			 <p>• Windows: VB-Audio Cable or VoiceMeeter</p>
+			 <p>• Mac: BlackHole</p>
+			 <p>• Linux (PulseAudio): <code>pactl load-module module-null-sink sink_name=chirpboard</code></p>
+			 <p>• Linux (PipeWire): use <code>pw-loopback</code> or qpwgraph to create a virtual sink</p>
+			 <p><br>Then select it as the "Virtual Mic" above.</p>
+			<p>Other apps (Discord, OBS) can use that virtual device as input.</p>
 			</div>
 
 			<div class="modal-buttons">

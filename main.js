@@ -23,12 +23,18 @@ if (!fs.existsSync(audioDir)) fs.mkdirSync(audioDir, { recursive: true })
 if (!fs.existsSync(imageDir)) fs.mkdirSync(imageDir, { recursive: true })
 if (!fs.existsSync(configPath)) fs.writeFileSync(configPath, JSON.stringify([]))
 
+// resolve icon path - Linux requires png, Windows/Mac accept ico
+function getIconPath() {
+	if (process.platform === 'linux') return path.join(__dirname, 'icon.png')
+	return path.join(__dirname, 'icon.ico')
+}
+
 // create main window
 function createWindow() {
 	mainWindow = new BrowserWindow({
 		width: 800,
 		height: 600,
-		icon: path.join(__dirname, 'icon.ico'),
+		icon: getIconPath(),
 		webPreferences: {
 			preload: path.join(__dirname, 'preload.js'),
 			contextIsolation: true,
@@ -47,7 +53,7 @@ function createWindow() {
 
 // create tray icon
 function createTray() {
-	const iconPath = path.join(__dirname, 'icon.ico')
+	const iconPath = getIconPath()
 	const icon = nativeImage.createFromPath(iconPath)
 	tray = new Tray(icon)
 	const contextMenu = Menu.buildFromTemplate([
@@ -162,7 +168,7 @@ ipcMain.handle('fs-read-file-sync', (_, filePath) => fs.readFileSync(filePath, '
 ipcMain.handle('delete-file', (_, filePath) => {
 	if (fs.existsSync(filePath)) {
 		const stat = fs.lstatSync(filePath)
-		if (stat.isDirectory()) fs.rmdirSync(filePath, { recursive: true })
+		if (stat.isDirectory()) fs.rmSync(filePath, { recursive: true })
 		else fs.unlinkSync(filePath)
 	}
 })
