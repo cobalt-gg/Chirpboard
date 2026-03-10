@@ -1,0 +1,907 @@
+:root {
+	--bg-darkest: #090605;
+	--bg-dark: #0b0705;
+	--bg: #0e0806;
+	--bg-light: #140c08;
+
+	--surface-1: #140c08;
+	--surface-3: #24160c;
+
+	--accent: #f3b15a;
+	--accent-hover: #e09f4a;
+	--accent-light: #f7c57c;
+
+	--danger: #e04a4a;
+	--danger-hover: #ff6666;
+
+	--text: #fff6e9;
+	--text-dim: #b39a7f;
+	--radius: 10px;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	user-select: none;
+}
+
+body {
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+	background: var(--bg);
+	color: var(--text);
+	min-height: 100vh;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 25px;
+	padding-bottom: 20px;
+	border-bottom: 2px solid var(--surface-3);
+}
+
+.header-buttons {
+	display: flex;
+	gap: 10px;
+}
+
+h1 {
+	font-size: 2.5rem;
+	font-weight: 700;
+	color: var(--accent);
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-bottom: 20px;
+	color: var(--text);
+}
+
+.settings-btn {
+	background: var(--surface-1);
+	border: 2px solid var(--surface-3);
+	color: var(--text);
+	padding: 10px 20px;
+	border-radius: var(--radius);
+	font-size: 1rem;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	position: relative;
+	overflow: hidden;
+}
+
+.settings-btn:hover {
+	background: var(--surface-3);
+	border-color: var(--accent);
+	transform: translateY(-2px);
+}
+
+.sound-btn {
+	transition: all 0.2s ease;
+}
+
+.sound-btn:hover:not(:active) {
+	background: var(--surface-3);
+	border-color: var(--accent);
+	transform: translateY(-3px);
+	transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Tab Content */
+.tab-content {
+	max-width: 1400px;
+	margin: 0 auto;
+	width: 100%;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+/* Search & Controls Row */
+.search-controls {
+	display: flex;
+	gap: 15px;
+	margin-bottom: 25px;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+#search {
+	flex: 1;
+	max-width: 600px;
+	padding: 12px 20px;
+	background: var(--surface-1);
+	border: 2px solid var(--surface-3);
+	border-radius: var(--radius);
+	color: var(--text);
+	font-size: 1rem;
+	transition: border-color 0.2s ease;
+}
+
+#search:focus {
+	outline: none;
+	border-color: var(--accent);
+}
+
+#search::placeholder {
+	color: var(--text-dim);
+}
+
+#stopAllBtn {
+	background: var(--danger);
+	border: none;
+	color: white;
+	padding: 10px 20px;
+	border-radius: var(--radius);
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	white-space: nowrap;
+}
+
+#stopAllBtn:hover {
+	background: var(--danger-hover);
+	transform: translateY(-2px);
+}
+
+/* Button Grid */
+#buttonGrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+	gap: 15px;
+	flex: 1;
+	margin-bottom: 25px;
+	align-content: start;
+}
+
+.sound-btn {
+	background: var(--surface-1);
+	border: 2px solid var(--surface-3);
+	border-radius: var(--radius);
+	padding: 15px;
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	position: relative;
+	overflow: hidden;
+	min-height: 120px;
+	font-size: 0.95rem;
+	font-weight: 600;
+	text-align: center;
+	word-break: break-word;
+	color: var(--text);
+	/* Stagger animation disabled - buttons appear immediately */
+	opacity: 1;
+	transform: translateY(0) scale(1);
+}
+
+.sound-btn.pinned {
+	border-color: var(--accent);
+	background: var(--surface-3);
+}
+
+.sound-btn.pinned::after {
+	content: '';
+	position: absolute;
+	top: 8px;
+	left: 8px;
+	width: 16px;
+	height: 16px;
+	background: var(--accent);
+	clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+	z-index: 2;
+	filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+/* Hotkey Badge */
+.hotkey-badge {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	background: var(--accent);
+	color: var(--bg-darkest);
+	padding: 4px 8px;
+	border-radius: 5px;
+	font-size: 0.7rem;
+	font-weight: 700;
+	z-index: 2;
+}
+
+/* Bottom Controls */
+.bottom-controls {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 20px;
+	padding-top: 20px;
+	border-top: 2px solid var(--surface-3);
+	margin-top: auto;
+}
+
+/* Add Sound Button */
+#addSoundBtn {
+	background: var(--accent);
+	border: none;
+	color: var(--bg-darkest);
+	padding: 15px 30px;
+	border-radius: var(--radius);
+	font-size: 1.1rem;
+	font-weight: 700;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	white-space: nowrap;
+}
+
+#addSoundBtn:hover {
+	background: var(--accent-hover);
+	transform: translateY(-2px);
+}
+
+/* Footer */
+footer {
+	background: var(--surface-1);
+	border: 2px solid var(--surface-3);
+	border-radius: var(--radius);
+	padding: 15px 20px;
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	min-width: 250px;
+}
+
+footer label {
+	font-weight: 600;
+	font-size: 1rem;
+	white-space: nowrap;
+}
+
+#volume {
+	flex: 1;
+	min-width: 150px;
+	height: 8px;
+	border-radius: 4px;
+	background: var(--surface-3);
+	outline: none;
+	-webkit-appearance: none;
+}
+
+#volume::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: var(--accent);
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+#volume::-webkit-slider-thumb:hover {
+	background: var(--accent-hover);
+	transform: scale(1.2);
+}
+
+#volume::-moz-range-thumb {
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: var(--accent);
+	cursor: pointer;
+	border: none;
+	transition: all 0.2s ease;
+}
+
+#volume::-moz-range-thumb:hover {
+	background: var(--accent-hover);
+	transform: scale(1.2);
+}
+
+/* Modal Styles */
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.8);
+	backdrop-filter: blur(4px);
+	animation: fadeIn 0.2s ease;
+	align-items: center;
+	justify-content: center;
+}
+
+@keyframes fadeIn {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+/* Show modal as flex to center content */
+#soundModal[style*="display: flex"],
+#soundOptionsModal[style*="display: flex"],
+#editModal[style*="display: flex"],
+#settingsModal[style*="display: flex"] {
+	display: flex !important;
+}
+
+.modal-content {
+	background: var(--bg-light);
+	border: 2px solid var(--surface-3);
+	border-radius: var(--radius);
+	padding: 30px;
+	max-width: 500px;
+	width: 90%;
+	max-height: 90vh;
+	overflow-y: auto;
+	animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+	from {
+		transform: translateY(20px);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+.settings-modal {
+	max-width: 600px;
+}
+
+.options-modal {
+	max-width: 400px;
+}
+
+.trim-modal {
+	max-width: 700px;
+}
+
+.download-modal {
+	max-width: 450px;
+}
+
+/* Progress Bar */
+.progress-bar-container {
+	width: 100%;
+	height: 30px;
+	background: var(--surface-1);
+	border: 2px solid var(--surface-3);
+	border-radius: var(--radius);
+	overflow: hidden;
+	position: relative;
+}
+
+.progress-bar {
+	height: 100%;
+	background: var(--accent);
+	width: 0%;
+	transition: width 0.3s ease;
+}
+
+/* Waveform Trim Interface */
+.waveform-container {
+	position: relative;
+	width: 100%;
+	height: 150px;
+	background: var(--surface-1);
+	border: 2px solid var(--surface-3);
+	border-radius: var(--radius);
+	margin: 20px 0;
+	overflow: hidden;
+}
+
+#waveformCanvas {
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+
+.trim-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+
+.trim-selection {
+	position: absolute;
+	top: 0;
+	height: 100%;
+	background: rgba(243, 177, 90, 0.2);
+	border-left: 2px solid var(--accent);
+	border-right: 2px solid var(--accent);
+	pointer-events: none;
+}
+
+.trim-handle {
+	position: absolute;
+	top: 0;
+	width: 12px;
+	height: 100%;
+	background: var(--accent);
+	cursor: ew-resize;
+	pointer-events: all;
+	transition: background 0.2s ease;
+}
+
+.trim-handle:hover {
+	background: var(--accent-hover);
+}
+
+.trim-handle::after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 2px;
+	height: 40px;
+	background: var(--bg-darkest);
+}
+
+.trim-start {
+	left: 0;
+}
+
+.trim-end {
+	right: 0;
+}
+
+.trim-playhead {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 3px;
+	height: 100%;
+	background: #ff4444;
+	pointer-events: none;
+	z-index: 10;
+	opacity: 0;
+	transition: opacity 0.2s ease;
+}
+
+.trim-playhead.active {
+	opacity: 1;
+}
+
+.trim-controls {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 15px;
+	margin-top: 15px;
+}
+
+.trim-time-display {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 1rem;
+	font-weight: 600;
+	color: var(--text);
+}
+
+.trim-duration {
+	color: var(--text-dim);
+	font-size: 0.9rem;
+}
+
+.trim-playback-info {
+	text-align: center;
+	min-height: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.trim-current-time {
+	color: #ff4444;
+	font-size: 1rem;
+	font-weight: 600;
+}
+
+.modal-content label {
+	display: block;
+	margin-top: 15px;
+	margin-bottom: 5px;
+	font-weight: 600;
+	color: var(--accent-light);
+}
+
+.modal-content label.or {
+	display: block;
+	margin-top: 15px;
+	margin-bottom: 5px;
+	font-weight: 600;
+	text-align: center;
+	color: var(--accent);
+}
+
+.modal-content input[type="text"],
+.modal-content select {
+	width: 100%;
+	padding: 12px;
+	background: var(--surface-1);
+	border: 2px solid var(--surface-3);
+	border-radius: var(--radius);
+	color: var(--text);
+	font-size: 1rem;
+	transition: border-color 0.2s ease;
+}
+
+.modal-content input[type="text"]:focus,
+.modal-content select:focus {
+	outline: none;
+	border-color: var(--accent);
+}
+
+/* File Button */
+.file-btn {
+	background: var(--surface-1);
+	border: 2px solid var(--surface-3);
+	color: var(--text);
+	padding: 10px 20px;
+	border-radius: var(--radius);
+	cursor: pointer;
+	font-size: 1rem;
+	transition: all 0.2s ease;
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.file-btn:hover {
+	background: var(--surface-3);
+	border-color: var(--accent);
+}
+
+#selectedAudio {
+	color: var(--text-dim);
+	font-size: 0.9rem;
+}
+
+/* Image Drop Zone */
+.image-drop {
+	border: 2px dashed var(--surface-3);
+	border-radius: var(--radius);
+	padding: 40px;
+	text-align: center;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	color: var(--text-dim);
+	margin-top: 10px;
+	background-size: cover;
+	background-position: center;
+	min-height: 120px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.image-drop:hover {
+	border-color: var(--accent);
+	background-color: var(--surface-1);
+}
+
+.image-drop.dragging {
+	border-color: var(--accent);
+	background-color: var(--surface-1);
+	color: var(--text);
+}
+
+/* Modal Buttons */
+.modal-buttons {
+	display: flex;
+	gap: 10px;
+	margin-top: 25px;
+	justify-content: flex-end;
+}
+
+.modal-buttons button {
+	padding: 12px 24px;
+	border: none;
+	border-radius: var(--radius);
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+#cancelAdd,
+#editCancel,
+#optionsClose,
+#settingsClose,
+#trimCancel {
+	background: var(--surface-3);
+	color: var(--text);
+}
+
+#cancelAdd:hover,
+#editCancel:hover,
+#optionsClose:hover,
+#settingsClose:hover,
+#trimCancel:hover {
+	background: var(--surface-1);
+}
+
+#saveAdd,
+#editSave,
+#trimSave {
+	background: var(--accent);
+	color: var(--bg-darkest);
+}
+
+#saveAdd:hover,
+#editSave:hover,
+#trimSave:hover {
+	background: var(--accent-hover);
+	transform: translateY(-2px);
+}
+
+/* Options Modal Specific */
+.option-play-btn {
+	width: 100%;
+	background: var(--accent);
+	border: none;
+	color: var(--bg-darkest);
+	padding: 15px;
+	border-radius: var(--radius);
+	font-size: 1.1rem;
+	font-weight: 700;
+	cursor: pointer;
+	margin-bottom: 20px;
+	transition: all 0.2s ease;
+}
+
+.option-play-btn:hover {
+	background: var(--accent-hover);
+	transform: translateY(-2px);
+}
+
+.option-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px 0;
+	border-bottom: 1px solid var(--surface-3);
+}
+
+.option-row label {
+	margin: 0;
+	color: var(--text);
+}
+
+.option-row input[type="checkbox"] {
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+	accent-color: var(--accent);
+}
+
+.volume-control {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex: 1;
+	margin-left: 20px;
+}
+
+.volume-control input[type="range"] {
+	flex: 1;
+	height: 8px;
+	border-radius: 4px;
+	background: var(--surface-3);
+	outline: none;
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+.volume-control input[type="range"]::-webkit-slider-track {
+	height: 8px;
+	border-radius: 4px;
+	background: var(--surface-3);
+}
+
+.volume-control input[type="range"]::-moz-range-track {
+	height: 8px;
+	border-radius: 4px;
+	background: var(--surface-3);
+	border: none;
+}
+
+.volume-control input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: var(--accent);
+	cursor: pointer;
+	transition: all 0.2s ease;
+	margin-top: -6px;
+}
+
+.volume-control input[type="range"]::-webkit-slider-thumb:hover {
+	background: var(--accent-hover);
+	transform: scale(1.2);
+}
+
+.volume-control input[type="range"]::-moz-range-thumb {
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: var(--accent);
+	cursor: pointer;
+	border: none;
+	transition: all 0.2s ease;
+}
+
+.volume-control input[type="range"]::-moz-range-thumb:hover {
+	background: var(--accent-hover);
+	transform: scale(1.2);
+}
+
+#optionsVolumeValue {
+	min-width: 50px;
+	text-align: right;
+	font-weight: 600;
+	color: var(--accent);
+}
+
+.option-btn {
+	width: 100%;
+	background: var(--surface-1);
+	border: 2px solid var(--surface-3);
+	color: var(--text);
+	padding: 12px;
+	border-radius: var(--radius);
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	margin-top: 10px;
+	transition: all 0.2s ease;
+}
+
+.option-btn:hover {
+	background: var(--surface-3);
+	border-color: var(--accent);
+}
+
+.danger-btn {
+	border-color: var(--danger);
+	color: var(--danger);
+}
+
+.danger-btn:hover {
+	background: var(--danger);
+	color: white;
+	border-color: var(--danger);
+}
+
+/* Settings Modal Specific */
+.device-select {
+	margin-bottom: 5px;
+}
+
+.settings-hint {
+	color: var(--text-dim);
+	font-size: 0.85rem;
+	margin-top: 5px;
+	margin-bottom: 15px;
+	font-style: italic;
+}
+
+.settings-info {
+	background: var(--surface-1);
+	border: 2px solid var(--surface-3);
+	border-radius: var(--radius);
+	padding: 20px;
+	margin-top: 25px;
+}
+
+.settings-info p {
+	margin-bottom: 10px;
+	line-height: 1.6;
+	color: var(--text-dim);
+}
+
+.settings-info strong {
+	color: var(--text);
+}
+
+/* Sound load animation */
+@keyframes soundIn {
+	from {
+		opacity: 0;
+		transform: translateY(16px) scale(0.96);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+/* Animated state */
+.sound-btn.loaded {
+	animation: soundIn 0.45s ease-out forwards;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: var(--surface-1);
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--surface-3);
+	border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--accent);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+	body {
+		padding: 15px;
+	}
+
+	h1 {
+		font-size: 2rem;
+	}
+
+	.search-controls {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	#search {
+		max-width: 100%;
+	}
+
+	#stopAllBtn {
+		width: 100%;
+	}
+
+	#buttonGrid {
+		grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+		gap: 10px;
+	}
+
+	.bottom-controls {
+		flex-direction: column-reverse;
+		align-items: stretch;
+		gap: 15px;
+	}
+
+	footer {
+		width: 100%;
+	}
+
+	#addSoundBtn {
+		width: 100%;
+	}
+
+	.modal-content {
+		padding: 20px;
+	}
+}

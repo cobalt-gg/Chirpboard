@@ -1,0 +1,73 @@
+{
+	"name": "chirpboard",
+	"version": "1.0.0",
+	"description": "A simple Electron soundboard app",
+	"main": "main.js",
+	"type": "commonjs",
+	"scripts": {
+		"start": "electron .",
+		"dist": "electron-builder"
+	},
+	"author": "cobalt",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/YOUR_USERNAME/chirpboard.git"
+	},
+	"homepage": "https://github.com/YOUR_USERNAME/chirpboard#readme",
+	"bugs": {
+		"url": "https://github.com/YOUR_USERNAME/chirpboard/issues"
+	},
+	"dependencies": {
+		"yt-dlp-exec": "^1.0.2"
+	},
+	"devDependencies": {
+		"electron": "^39.2.7",
+		"electron-builder": "^26.0.12"
+	},
+	"build": {
+		"appId": "com.cobalt.chirpboard",
+		"productName": "ChirpBoard",
+		"directories": {
+			"output": "dist"
+		},
+		"files": [
+			"**/*",
+			"!dist",
+			"!node_modules/**/{CHANGELOG.md,README.md,README,readme.md,readme}",
+			"!node_modules/.bin",
+			"!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
+			"!.editorconfig",
+			"!**/._*",
+			"!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}",
+			"!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
+			"!**/{appveyor.yml,.travis.yml,circle.yml}",
+			"!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
+		],
+		"win": {
+			"target": [
+				{
+					"target": "nsis",
+					"arch": [
+						"x64"
+					]
+				}
+			],
+			"icon": "icon.ico"
+		},
+		"nsis": {
+			"oneClick": false,
+			"perMachine": false,
+			"allowToChangeInstallationDirectory": true,
+			"allowElevation": true,
+			"createDesktopShortcut": true,
+			"createStartMenuShortcut": true,
+			"runAfterFinish": true,
+			"installerIcon": "icon.ico",
+			"uninstallerIcon": "icon.ico",
+			"installerHeaderIcon": "icon.ico",
+			"include": "installer.nsh",
+			"deleteAppDataOnUninstall": false
+		}
+	}
+}

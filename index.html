@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Chirpboard</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<!-- Header with Title and Settings -->
+	<div class="header">
+		<h1>Chirpboard</h1>
+		<div class="header-buttons">
+			<button id="stopAllBtn">Stop All</button>
+			<button id="settingsBtn" class="settings-btn">Settings</button>
+		</div>
+	</div>
+
+	<!-- Sounds Tab -->
+	<div id="soundsTab" class="tab-content">
+		<!-- Search Control -->
+		<div class="search-controls">
+			<input type="text" id="search" placeholder="Search sounds...">
+		</div>
+
+		<div id="buttonGrid"></div>
+
+		<div class="bottom-controls">
+			<footer>
+				<label for="volume">Volume:</label>
+				<input type="range" id="volume" min="0" max="1" step="0.01" value="1">
+			</footer>
+			<button id="addSoundBtn">Add Sound</button>
+		</div>
+	</div>
+
+	<!-- add sound modal -->
+	<div id="soundModal" class="modal">
+		<div class="modal-content">
+			<h2>Add New Sound</h2>
+			<label>Name:</label>
+			<input type="text" id="soundName" placeholder="Enter sound name">
+
+			<label>Audio File (mp3):</label>
+			<button id="selectAudioBtn" class="file-btn">Select File</button>
+			<span id="selectedAudio">no file selected</span>
+			<label class="or">OR</label>
+			<label>YouTube URL:</label>
+			<input type="text" id="soundUrl" placeholder="Enter URL">
+
+			<label>Image:</label>
+			<div id="imageDrop" class="image-drop">Drag image here or click to upload</div>
+
+			<div class="modal-buttons">
+				<button id="cancelAdd">Cancel</button>
+				<button id="saveAdd">Add</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- sound options modal -->
+	<div id="soundOptionsModal" class="modal">
+		<div class="modal-content options-modal">
+			<h2>Sound Options</h2>
+
+			<button id="optionsPlay" class="option-play-btn">▶ Play</button>
+
+			<div class="option-row">
+				<label for="optionsPinned">Pin to top:</label>
+				<input type="checkbox" id="optionsPinned">
+			</div>
+
+			<div class="option-row">
+				<label for="optionsLoop">Loop:</label>
+				<input type="checkbox" id="optionsLoop">
+			</div>
+
+			<div class="option-row">
+				<label for="optionsSoundVolume">Volume:</label>
+				<div class="volume-control">
+					<input type="range" id="optionsSoundVolume" min="0" max="200" step="1" value="100">
+					<span id="optionsVolumeValue">100%</span>
+				</div>
+			</div>
+
+			<button id="optionsEdit" class="option-btn">Edit Name/Image</button>
+			<button id="optionsTrim" class="option-btn">Trim Audio</button>
+			<button id="optionsHotkey" class="option-btn">Assign Hotkey</button>
+			<button id="optionsDelete" class="option-btn danger-btn">Delete Sound</button>
+
+			<div class="modal-buttons">
+				<button id="optionsClose">Close</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- edit modal -->
+	<div id="editModal" class="modal">
+		<div class="modal-content">
+			<h2>Edit Sound</h2>
+
+			<label>Name:</label>
+			<input type="text" id="editName" placeholder="Enter sound name">
+
+			<label>Image:</label>
+			<button id="editSelectImage" class="file-btn">Select Image</button>
+			<div id="editImageDrop" class="image-drop">Drag image here or click to select</div>
+
+			<div class="modal-buttons">
+				<button id="editCancel">Cancel</button>
+				<button id="editSave">Save</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- trim audio modal -->
+	<div id="trimModal" class="modal">
+		<div class="modal-content trim-modal">
+			<h2>Trim Audio</h2>
+			<p style="color: var(--text-dim); margin-bottom: 20px;">Drag the edges to trim your audio</p>
+			
+			<div class="waveform-container">
+				<canvas id="waveformCanvas"></canvas>
+				<div class="trim-overlay">
+					<div class="trim-handle trim-start" id="trimHandleStart"></div>
+					<div class="trim-selection" id="trimSelection"></div>
+					<div class="trim-handle trim-end" id="trimHandleEnd"></div>
+					<div class="trim-playhead" id="trimPlayhead"></div>
+				</div>
+			</div>
+			
+			<div class="trim-controls">
+				<div class="trim-time-display">
+					<span id="trimStartDisplay">0.0s</span>
+					<span>-</span>
+					<span id="trimEndDisplay">0.0s</span>
+					<span class="trim-duration" id="trimDuration">(0.0s)</span>
+				</div>
+				<button id="trimPlayPreview" class="option-btn">▶ Preview</button>
+			</div>
+			
+			<div class="trim-playback-info">
+				<span class="trim-current-time" id="trimCurrentTime"></span>
+			</div>
+			
+			<audio id="trimAudio" style="display: none;"></audio>
+			
+			<div class="modal-buttons">
+				<button id="trimCancel">Cancel</button>
+				<button id="trimSave">Save</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- download progress modal -->
+	<div id="downloadModal" class="modal">
+		<div class="modal-content download-modal">
+			<h2>Downloading...</h2>
+			<p id="downloadStatus" style="color: var(--text-dim); margin-bottom: 20px;">Preparing download...</p>
+			<div class="progress-bar-container">
+				<div class="progress-bar" id="downloadProgress"></div>
+			</div>
+			<p id="downloadPercent" style="text-align: center; margin-top: 10px; font-weight: 600; color: var(--accent);">0%</p>
+		</div>
+	</div>
+
+	<!-- settings modal -->
+	<div id="settingsModal" class="modal">
+		<div class="modal-content settings-modal">
+			<h2>Settings</h2>
+
+			<label>Input Device:</label>
+			<select id="inputDeviceSelect" class="device-select">
+				<option value="default">System Default</option>
+			</select>
+			<p class="settings-hint">your microphone</p>
+
+			<label>Output Device:</label>
+			<select id="outputDeviceSelect" class="device-select">
+				<option value="default">System Default</option>
+			</select>
+			<p class="settings-hint">your headphones (where you hear soundboard)</p>
+
+			<label>Virtual Mic:</label>
+			<select id="virtualMicSelect" class="device-select">
+				<option value="default">System Default</option>
+			</select>
+			<p class="settings-hint">virtual cable output (mic + soundboard merged)</p>
+
+			<div class="option-row">
+				<label for="minimizeToTray">Minimize to tray on close:</label>
+				<input type="checkbox" id="minimizeToTray">
+			</div>
+
+			<div class="settings-info">
+				<p><strong>Setup Instructions:</strong></p>
+				<p>Install a virtual audio cable to route audio:</p>
+				<p>• Windows: VB-Audio Cable or VoiceMeeter</p>
+				<p>• Mac: BlackHole</p>
+				<p>• Linux: PulseAudio loopback</p>
+				<p><br>Then select it as the "Virtual Mic" above.</p>
+				<p>Other apps (Discord, OBS) can use that virtual cable as input.</p>
+			</div>
+
+			<div class="modal-buttons">
+				<button id="settingsClose">Close</button>
+			</div>
+		</div>
+	</div>
+
+	<script src="renderer.js"></script>
+</body>
+</html>
