@@ -33,8 +33,6 @@ npm install
 npm start
 ```
 
-> **Note for Linux:** The app requires `icon.png` (not `.ico`) for the window and tray icon. Make sure one exists in the project root.
-
 ## Build
 
 ```bash
